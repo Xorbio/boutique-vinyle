@@ -1,4 +1,4 @@
-import { listProducts } from "@/lib/data"
+import { listProducts } from '@/lib/data'
 import ProductCard from '@/components/ProductCard'
 
 export const revalidate = 60
