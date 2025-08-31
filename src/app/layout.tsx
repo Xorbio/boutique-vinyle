@@ -1,5 +1,7 @@
 import './globals.css'
 import Link from 'next/link'
+import { CartProvider } from '@/components/CartProvider'
+import CartLink from '@/components/CartLink'
 
 export const metadata = {
   title: 'Atelier Vinyle – Pièces artisanales en vinyle laqué perforé',
@@ -16,9 +18,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body className="min-h-screen bg-white text-gray-900">
-        <Header />
-        <main className="container mx-auto px-4">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main className="container mx-auto px-4">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   )
@@ -33,6 +37,7 @@ function Header() {
           <Link href="/boutique" className="hover:opacity-70">Boutique</Link>
           <Link href="/a-propos" className="hover:opacity-70">À propos</Link>
           <Link href="/contact" className="hover:opacity-70">Contact</Link>
+          <CartLink />
         </nav>
       </div>
     </header>

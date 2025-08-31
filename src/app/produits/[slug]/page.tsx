@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Price from '@/components/Price'
 import { getProductBySlug } from '@/lib/data'
 import { notFound } from 'next/navigation'
+import AddToCart from './shared/AddToCart'
 
 export const revalidate = 60 // ISR
 
@@ -35,27 +36,23 @@ export default async function ProductPage({ params }: Props) {
           <div className="mt-2 text-xl">
             <Price cents={product.price_cents} currency={product.currency} />
           </div>
+          <div className="mt-1 text-sm text-gray-600">Stock restant: {product.stock ?? 0}</div>
           <p className="mt-6 text-gray-700">{product.description}</p>
 
-          {/* Bouton Acheter (Stripe plus tard) */}
-          <form action="/api/checkout" method="POST" className="mt-8 flex gap-3">
-            <input type="hidden" name="slug" value={product.slug} />
-            <input
-              type="number"
-              name="quantity"
-              min={1}
-              max={product.stock ?? 99}
-              defaultValue={1}
-              className="w-20 rounded-lg border p-2"
+          {/* Ajout au panier */}
+          <div className="mt-8">
+            <AddToCart
+              product={{
+                id: product.id,
+                slug: product.slug,
+                title: product.title,
+                price_cents: product.price_cents,
+                currency: product.currency,
+                image_url: product.images[0]?.url,
+                stock: product.stock ?? 0,
+              }}
             />
-            <button
-              type="submit"
-              disabled={(product.stock ?? 0) <= 0}
-              className="rounded-xl bg-black text-white px-6 py-3 disabled:opacity-50"
-            >
-              Acheter
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
