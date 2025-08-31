@@ -89,7 +89,21 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
   if (!row) return null
 
   const product = row as ProductRow
-  const inv = product.inventory && product.inventory.length > 0 ? product.inventory[0] : undefined
+  let inv = product.inventory && product.inventory.length > 0 ? product.inventory[0] : undefined
+
+  // Fallback: si la relation imbriquée ne remonte rien (relation non détectée/RLS), on lit la table inventory
+  if (!inv) {
+    const invResp = await supabase
+      .from('inventory')
+      .select('stock, attributes')
+      .eq('product_id', product.id)
+      .order('id', { ascending: true })
+      .limit(1)
+    if (!invResp.error && invResp.data && invResp.data.length > 0) {
+      // @ts-expect-error Supabase infère un type générique ici
+      inv = invResp.data[0] as { stock?: number; attributes?: Record<string, unknown> }
+    }
+  }
 
   return {
     id: product.id,
