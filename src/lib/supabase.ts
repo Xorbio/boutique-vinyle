@@ -13,8 +13,15 @@ export const publicImageUrl = (path: string) => {
   return new URL(`/storage/v1/object/public/${clean}`, base).toString()
 }
 function normalizeObjectPath(input: string) {
-  return String(input)
-    .replace(/\\/g, '/')      // 1) \ -> /
-    .replace(/\/{2,}/g, '/')  // 2) compacter les // internes
-    .replace(/^\/+/, '');     // 3) enlever les / de tête
+  // Normalise les séparateurs et supprime les segments vides, '.' et '..'
+  const parts = String(input)
+    .replace(/\\/g, '/')
+    .split('/')
+    .filter(Boolean)
+  const safe: string[] = []
+  for (const p of parts) {
+    if (p === '.' || p === '..') continue
+    safe.push(p)
+  }
+  return safe.join('/')
 }
