@@ -6,9 +6,11 @@ export const supabase = createClient(
 
 )
 export const publicImageUrl = (path: string) => {
-  // supprime un éventuel slash initial et encode les caractères spéciaux
-   const clean = normalizeObjectPath(objectPath);
-  return new URL(`/storage/v1/object/public/${clean}`).toString();
+  // nettoie le chemin et construit une URL absolue vers le bucket public Supabase
+  const clean = normalizeObjectPath(path)
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  // Utilise l'URL du projet Supabase comme base
+  return new URL(`/storage/v1/object/public/${clean}`, base).toString()
 }
 function normalizeObjectPath(input: string) {
   return String(input)
@@ -16,4 +18,3 @@ function normalizeObjectPath(input: string) {
     .replace(/\/{2,}/g, '/')  // 2) compacter les // internes
     .replace(/^\/+/, '');     // 3) enlever les / de tête
 }
-

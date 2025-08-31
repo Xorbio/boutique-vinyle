@@ -25,7 +25,7 @@ export default function Home() {
         <div className="relative aspect-square w-full rounded-3xl overflow-hidden bg-gray-50">
           {/* Remplace par une jolie photo */}
           <Image
-            src="/public/globe.svg"
+            src="/globe.svg"
             alt="Création en vinyle laqué perforé"
             fill
             className="object-cover"
