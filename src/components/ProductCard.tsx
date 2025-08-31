@@ -9,7 +9,7 @@ export default function ProductCard({ p }:{ p:{
     <Link href={`/produits/${p.slug}`} className="block rounded-2xl border p-3 hover:shadow-md transition">
       <div className="aspect-square w-full relative rounded-xl overflow-hidden bg-gray-50">
         {p.image_url ? (
-          <Image src={p.image_url} alt={p.title} fill className="object-cover" sizes="(min-width:768px) 25vw, 100vw" />
+          <Image src={p.image_url} alt={p.title} fill className="object-cover" sizes="(min-width:768px) 25vw, 100vw" unoptimized />
         ) : <div className="w-full h-full" />}
       </div>
       <div className="mt-3">
