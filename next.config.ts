@@ -3,7 +3,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'https://boutique-vinyle.vercel.app/',
+        hostname: 'boutique-vinyle.vercel.app/',
       },
     ],
   },
